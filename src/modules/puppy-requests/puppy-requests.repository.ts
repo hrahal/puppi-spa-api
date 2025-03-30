@@ -1,10 +1,11 @@
 import { Knex } from 'knex';
 
 import { Inject, Injectable, Query } from '@nestjs/common';
+import { KNEX_CONNECTION } from 'src/knex.module';
 
 @Injectable()
 export class PuppyRepository {
-  constructor(@Inject('KNEX_CONNECTION') private readonly knex: Knex) {}
+  constructor(@Inject(KNEX_CONNECTION) private readonly knex: Knex) {}
 
   public async getAll(date: string): Promise<any> {
     try {

@@ -1,98 +1,89 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Puppy SPA API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This is the backend API for a Puppy Service application. It's built using NestJS and interacts with a PostgreSQL database (via Knex.js) to manage puppy requests.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Features
 
-## Description
+*   **CRUD Operations:** Create, Read, Update, and Delete puppy requests.
+*   **Date-Based Filtering:** Retrieve puppy requests for a specific date.
+*   **Search:** Search for puppy requests by first name, last name, or dog name.
+*   **Reordering:** Change the order of puppy requests for a given day.
+*   **Mark as Served:** Mark a puppy request as served, which moves it to the end of the list.
+* **Validation:** Validate the date format.
+* **Swagger Docs** Swagger api documentation at `/api`
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Technologies Used
 
-## Project setup
+*   **NestJS:** 
+*   **TypeScript:** 
+*   **PostgreSQL:** 
+*   **Knex.js:** SQL query builder for Node.js
+*   **Node.js:** 
+* **Yarn:** 
 
-```bash
-$ yarn install
-```
+## Project Structure
 
-## Compile and run the project
+*   **`src/`:** Contains the source code of the application.
+    *   **`modules/`:** Contains the application's modules.
+        *   **`puppy-requests/`:** Contains the code related to puppy requests.
+            *   **`puppy-requests.controller.ts`:** Defines the API endpoints for puppy requests.
+            *   **`puppy-requests.service.ts`:** Contains the business logic for managing puppy requests.
+            *   **`puppy-requests.repository.ts`:** Handles the database interactions for puppy requests.
+    *   **`types/`:** Contains the type definitions.
+        * **`puppy-requests.entity.ts`:** Contains the type definition for the puppy request.
+    *   **`validation/`:** Contains the validation pipes.
+        * **`date-validation.pipe.ts`:** Contains the validation pipe for the date.
+    *   **`main.ts`:** The entry point of the application.
 
-```bash
-# development
-$ yarn run start
+## Getting Started
 
-# watch mode
-$ yarn run start:dev
+### Prerequisites
 
-# production mode
-$ yarn run start:prod
-```
+*   **Node.js:** Make sure you have Node.js (version 18 or higher recommended) installed on your system.
+*   **Yarn:** You'll need to install Yarn globally. `npm install -g yarn`
+*   **PostgreSQL:** You'll need a running PostgreSQL database instance.
+* **Knex:** You'll need to install Knex globally. `npm install -g knex`
 
-## Run tests
+### Installation
 
-```bash
-# unit tests
-$ yarn run test
+1.  **Clone the repository:**
 
-# e2e tests
-$ yarn run test:e2e
+    ```bash
+    git clone <repository-url>
+    cd spa-api
+    ```
 
-# test coverage
-$ yarn run test:cov
-```
+2.  **Install dependencies:**
 
-## Deployment
+    ```bash
+    yarn install
+    ```
+  
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+### Running the Application
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+1.  **Development mode:**
 
-```bash
-$ yarn install -g mau
-$ mau deploy
-```
+    ```bash
+    yarn run start:dev
+    ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+    This will start the application in development mode with hot-reloading.
 
-## Resources
+2.  **Production mode:**
 
-Check out a few resources that may come in handy when working with NestJS:
+    ```bash
+    yarn run build
+    yarn run start:prod
+    ```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+    *   `yarn run build`: Compiles the TypeScript code into JavaScript in the `dist` directory.
+    *   `yarn run start:prod`: Starts the application using the compiled code.
 
-## Support
+### Missing Feature / Known issues
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+1. Have a more comprehensive input validation using zod schema and Nest Pipes 
+2. Privide a .Dockerfils and docker-compose.yaml to have a better local setup
+3. Cloud Deployent. Due time constrains this api is not deployed on a cloud provider.
+4. Better error handling in place. The current error handling is the one implemented by NestJS but its kot enough for custom messages and edge cases.
+5. Delegate filtering and sorting to the puppy repo instead od doing it on the server. But due to the expected data for the scope of this app, it should not be a problem.

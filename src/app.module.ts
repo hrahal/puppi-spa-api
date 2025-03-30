@@ -9,7 +9,7 @@ import { ConfigModule } from '@nestjs/config';
       envFilePath: '.env.development.local',
       isGlobal: true,
     }),
-    KnexModule, // Remove KnexModule.register()
+    KnexModule.register(),
     PuppyRequestsModule,
   ],
 })
