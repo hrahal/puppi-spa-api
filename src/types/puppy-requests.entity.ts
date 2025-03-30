@@ -40,3 +40,14 @@ export class PuppyRequest extends CreatPuppyRequest {
   @ApiProperty()
   id: number;
 };
+
+export class ChangeOrder {
+    @ApiProperty()
+    date: string;
+    
+    @ApiProperty()
+    fromId: number;
+
+    @ApiProperty()
+    toId: number;
+};

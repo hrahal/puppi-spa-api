@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Put, Query, UsePipes, Post } from
 import { PuppyRequestsService } from './puppy-requests.service';
 import { PuppyRequest } from '../../types/puppy-requests.entity';
 import { DateValidationPipe } from 'src/validation/date-validation.pipe';
+import { ChangeOrder } from 'src/types/puppy-requests.entity';
 
 
 @Controller('/api')
@@ -48,8 +49,3 @@ export class PuppyRequestsController {
   }
 }
 
-export type ChangeOrder = {
-    date: string,
-    fromId: number,
-    toId: number
-}

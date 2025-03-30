@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PuppyRequest } from '../../types/puppy-requests.entity';
 import { PuppyRepository } from 'src/modules/puppy-requests/puppy-requests.repository';
-import { ChangeOrder } from './puppy-requests.controller';
+import { ChangeOrder } from 'src/types/puppy-requests.entity';
 
 function formatDate(isoString) {
   return isoString.split('T')[0];
@@ -22,10 +22,10 @@ export class PuppyRequestsService {
 
   async deleteOne(id: number): Promise<any> {
     const [reqTodelete] = await this.puppyRepository.getOne(id);
+    
     let allRequests = await this.puppyRepository.getAll(
-      formatDate(reqTodelete.date.toString()),
+      formatDate(reqTodelete.date.toISOString()),
     );
-    const custumerOrder = reqTodelete.order_number;
 
     if (allRequests.length == 1) {
       await this.puppyRepository.deleteOne(id);
@@ -68,8 +68,15 @@ export class PuppyRequestsService {
     if (allRequests.length == 1) {
       return editCustomer;
     }
+    
+    const reorderedRequests = this.reOrderRequests(allRequests, custumerOrder, puppyRequest);
+    await this.puppyRepository.updateOrder(reorderedRequests);
 
-    const reorderedRequests = allRequests
+    return editCustomer;
+  }
+
+  private reOrderRequests(allRequests: any, custumerOrder: number, puppyRequest: PuppyRequest) {
+    return allRequests
       .filter((request) => !request.is_served)
       .sort((a, b) => a.order_number - b.order_number)
       .slice(custumerOrder - 1)
@@ -77,10 +84,6 @@ export class PuppyRequestsService {
         return { id: request.id, order: request.order_number - 1 };
       })
       .concat({ id: puppyRequest.id, order: -1 });
-
-    this.puppyRepository.updateOrder(reorderedRequests);
-
-    return editCustomer;
   }
 
   async createOne(puppyRequest: PuppyRequest): Promise<PuppyRequest> {
@@ -107,63 +110,6 @@ export class PuppyRequestsService {
 
   async getLastOrder(date: string): Promise<PuppyRequest[]> {
     return this.puppyRepository.getLastOrder(date);
-  }
-
-  async changeOrder1(changeOrderData: ChangeOrder): Promise<PuppyRequest[]> {
-    console.log(changeOrderData);
-    let list = await this.puppyRepository.getAll(changeOrderData.date);
-    list = list.filter((request) => !request.is_served);
-
-    const from: PuppyRequest = list.find(
-      (request) => request.id === changeOrderData.fromId,
-    );
-    const to: PuppyRequest = list.find(
-      (request) => request.id === changeOrderData.toId,
-    );
-
-    const fromNumber = from.order_number;
-    const toNumber = to.order_number;
-
-    if (fromNumber > toNumber) {
-      const affectedRequests = list
-        .sort((a, b) => {
-          return a.order_number - b.order_number;
-        })
-        .slice(toNumber - 1, fromNumber - 1)
-        .map((request: PuppyRequest) => {
-          request.order_number = request.order_number + 1;
-          return request;
-        });
-
-      affectedRequests.push({ ...from, ...{ order_number: toNumber } });
-
-      this.puppyRepository.updateOrder(
-        affectedRequests.map((req: PuppyRequest) => {
-          return { id: req.id, order: req.order_number };
-        }),
-      );
-    } else {
-      const affectedRequests = list
-        .sort((a, b) => {
-          return a.order_number - b.order_number;
-        })
-        .slice(fromNumber, toNumber)
-        .map((request: PuppyRequest) => {
-          request.order_number = request.order_number - 1;
-          return request;
-        });
-
-      affectedRequests.push({ ...from, ...{ order_number: toNumber } });
-
-      this.puppyRepository.updateOrder(
-        affectedRequests.map((req: PuppyRequest) => {
-          const id: number = req.id as number;
-          return { id: id, order: req.order_number };
-        }),
-      );
-    }
-
-    return [];
   }
 
   async changeOrder(changeOrderData: ChangeOrder): Promise<PuppyRequest[]> {
