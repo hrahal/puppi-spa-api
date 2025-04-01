@@ -87,3 +87,4 @@ This is the backend API for a Puppy Service application. It's built using NestJS
 3. Cloud Deployent. Due time constrains this api is not deployed on a cloud provider.
 4. Better error handling in place. The current error handling is the one implemented by NestJS but its kot enough for custom messages and edge cases.
 5. Delegate filtering and sorting to the puppy repo instead od doing it on the server. But due to the expected data for the scope of this app, it should not be a problem.
+6. Add tests
