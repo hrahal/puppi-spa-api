@@ -15,7 +15,7 @@ CREATE TABLE puppy_requests (
     price NUMERIC NOT NULL,
     arrival_time TIMESTAMP WITH TIME ZONE NOT NULL,
     is_served BOOLEAN NOT NULL,
-    order_number INTEGER -- Added order_number field
+    order_number INTEGER 
 );
 
 INSERT INTO puppy_requests (
